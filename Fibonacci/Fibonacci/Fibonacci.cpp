@@ -1,29 +1,41 @@
 #include <iostream>
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 
-int FibRecursive(int);
+int FibRecursion(int);
 void FibIteration(int);
 
 int main(){
-	const int series = 15;
+	const int series = 20;
     int i = 0;
-	
+
+    cout << "Recursive 'nacci: ";
+    auto timeStart = high_resolution_clock::now();
     while (i < series) {
-        cout << FibRecursive(i) << " ";
+        cout << FibRecursion(i) << " ";
         i++;
     }
-    cout << endl << endl;
+    cout << endl;
+    auto timeStop = high_resolution_clock::now();
+    auto elapsedTime = duration_cast<microseconds>(timeStop - timeStart);
+    cout << "That took : " << elapsedTime.count() << " microseconds" << endl << endl;
 
+    cout << "Iterative 'nacci: ";
+    timeStart = high_resolution_clock::now();
     FibIteration(series);
     cout << endl;
+    timeStop = high_resolution_clock::now();
+    elapsedTime = duration_cast<microseconds>(timeStop - timeStart);
+    cout << "That took : " << elapsedTime.count() << " microseconds" << endl;
 	
     return 0;
 }
 
-int FibRecursive(int n){
+int FibRecursion(int n){
     if (n == 0 || n == 1)
         return n;
-    return (FibRecursive(n - 1) + FibRecursive(n - 2));
+    return (FibRecursion(n - 1) + FibRecursion(n - 2));
 }
 
 void FibIteration(int n){
