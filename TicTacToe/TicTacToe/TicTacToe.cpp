@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstdlib>
+
 using namespace std;
 
 char grid[3][3] = {{'1', '2', '3'}, {'4', '5', '6'}, {'7', '8', '9'}};
@@ -15,16 +17,17 @@ void displayGrid(){
 	cout << ' ' << grid[2][0] << '|' << grid[2][1] << '|' << grid[2][2] << endl << endl;
 }
 
-void playerTurn(){
+void gameTurn(){
 	if (currentPlayer == 'X'){
-		cout << "Player 1(X)'s turn!" << endl;
+		cout << "Player(X)'s turn!" << endl;
 		cout << "Choose a location on the board to place X " << endl;
+		cin >> playerInput;
 	}
 	if (currentPlayer == 'O'){
-		cout << "Player 2(O)'s turn!" << endl;
-		cout << "Choose a location on the board to place O " << endl;
+		cout << "Computer(O)'s turn!" << endl;
+		playerInput = (rand() % 9) + 1;
+		cout << "The computer chose " << playerInput << endl;
 	}
-	cin >> playerInput;
 
 	switch (playerInput) {
 		case 1:
@@ -67,9 +70,8 @@ void playerTurn(){
 		currentPlayer = 'X';
 	} else{
 		cout << "That square is already taken" << endl;
-		playerTurn();
+		gameTurn();
 	}
-	displayGrid();
 }
 
 bool gameOver(){
@@ -85,16 +87,19 @@ bool gameOver(){
 }
 
 int main() {
+	srand(time(0));
+	
 	displayGrid();
 	
 	while (!gameOver()){
-		playerTurn();
+		gameTurn();
+		displayGrid();
 	}
 	
 	if(currentPlayer == 'O'){
-		cout << "Player 1(X) wins!" << endl;
+		cout << "Player(X) wins!" << endl;
 	} else{
-		cout << "Player 2(O) wins!" << endl;
+		cout << "The computer(O) wins!" << endl;
 	}
 }
 
